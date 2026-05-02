@@ -1,5 +1,6 @@
 import express from 'express';
 import { Log } from 'logging-middleware';
+import notificationsRouter from './routes/notifications';
 
 const app = express();
 app.use(express.json());
@@ -11,6 +12,8 @@ app.get('/', (_req, res) => {
 app.get('/health', (_req, res) => {
   res.json({ status: 'ok', service: 'notification-app-be' });
 });
+
+app.use(notificationsRouter);
 
 app.post('/notify', async (req, res) => {
   const { message } = req.body;

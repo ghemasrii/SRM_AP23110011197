@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const logging_middleware_1 = require("logging-middleware");
+const notifications_1 = __importDefault(require("./routes/notifications"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.get('/', (_req, res) => {
@@ -13,6 +14,7 @@ app.get('/', (_req, res) => {
 app.get('/health', (_req, res) => {
     res.json({ status: 'ok', service: 'notification-app-be' });
 });
+app.use(notifications_1.default);
 app.post('/notify', async (req, res) => {
     const { message } = req.body;
     if (!message || typeof message !== 'string') {
