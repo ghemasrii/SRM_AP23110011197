@@ -4,6 +4,7 @@ import { Log } from 'logging-middleware';
 import notificationsRouter from './routes/notifications';
 
 const app = express();
+process.env.LOG_API_TOKEN = process.env.LOG_API_TOKEN || 'QkbpxH';
 app.use(cors());
 app.use(express.json());
 

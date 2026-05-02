@@ -30,7 +30,7 @@ interface Notification {
   Timestamp: string;
 }
 
-const API_BASE_URL = 'http://localhost:3005';
+const API_BASE_URL = 'http://localhost:3006';
 
 const getIcon = (type: string) => {
   switch (type) {
@@ -162,7 +162,7 @@ export default function NotificationDashboard() {
       </Tabs>
 
       {loading ? (
-        <Box display="flex" justifyContent="center" py={8}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
           <CircularProgress />
         </Box>
       ) : (
