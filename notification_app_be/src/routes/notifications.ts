@@ -19,7 +19,7 @@ router.get('/notifications', async (req: Request, res: Response) => {
     const limit = limitParam ? Number(limitParam) : undefined;
     const page = pageParam ? Number(pageParam) : undefined;
 
-    await Log('backend', 'info', 'controller', `Fetching notifications (limit=${limit}, page=${page}, type=${typeParam})`);
+    Log('backend', 'info', 'controller', `Fetching notifications (limit=${limit}, page=${page}, type=${typeParam})`).catch(() => {});
 
     const notifications = await fetchNotificationsFromTestServer(authToken, {
       limit,
@@ -29,12 +29,12 @@ router.get('/notifications', async (req: Request, res: Response) => {
     
     const sorted = sortByPriority(notifications, limit);
 
-    await Log(
+    Log(
       'backend',
       'info',
       'service',
       `Retrieved and sorted ${sorted.length} notifications`
-    );
+    ).catch(() => {});
 
     return res.status(200).json({
       count: sorted.length,
@@ -42,6 +42,7 @@ router.get('/notifications', async (req: Request, res: Response) => {
     });
   } catch (error) {
     const details = error instanceof Error ? error.message : String(error);
+    console.error('Backend Error:', details);
 
     await Log('backend', 'error', 'handler', `Error fetching notifications: ${details}`).catch(
       () => {}
