@@ -8,20 +8,33 @@ export interface Notification {
 }
 
 const NOTIFICATION_PRIORITY: Record<string, number> = {
-  Result: 3,
-  Placement: 2,
+  Placement: 3,
+  Result: 2,
   Event: 1
 };
 
-export async function fetchNotificationsFromTestServer(token: string): Promise<Notification[]> {
+export async function fetchNotificationsFromTestServer(
+  token: string,
+  params: { limit?: number; page?: number; notification_type?: string } = {}
+): Promise<Notification[]> {
   return new Promise((resolve, reject) => {
     const { request } = require('http');
+
+    let path = '/evaluation-service/notifications';
+    const query = new URLSearchParams();
+    if (params.limit) query.append('limit', params.limit.toString());
+    if (params.page) query.append('page', params.page.toString());
+    if (params.notification_type) query.append('notification_type', params.notification_type);
+    
+    if (query.toString()) {
+      path += `?${query.toString()}`;
+    }
 
     const req = request(
       {
         hostname: '20.207.122.201',
         port: 80,
-        path: '/evaluation-service/notifications',
+        path: path,
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`
@@ -58,10 +71,16 @@ export function sortByPriority(
   notifications: Notification[],
   limit?: number
 ): Notification[] {
-  const sorted = notifications.sort((a, b) => {
+  const sorted = [...notifications].sort((a, b) => {
     const priorityA = NOTIFICATION_PRIORITY[a.Type] || 0;
     const priorityB = NOTIFICATION_PRIORITY[b.Type] || 0;
-    return priorityB - priorityA;
+
+    if (priorityB !== priorityA) {
+      return priorityB - priorityA;
+    }
+
+    // Secondary sort: Recency (Timestamp desc)
+    return b.Timestamp.localeCompare(a.Timestamp);
   });
 
   if (limit && limit > 0) {

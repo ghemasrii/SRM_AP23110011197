@@ -10,8 +10,8 @@ The Campus Notifications Microservice provides a real-time notification system f
 
 ### Goals
 
-- Fetch notifications from the AffordMed test server
-- Prioritize notifications by type (Result > Placement > Event)
+- Fetch notifications from the test server
+- Prioritize notifications by type (Placement > Result > Event)
 - Support query parameters for limiting the number of notifications
 - Integrate with the logging middleware for observability
 - Prepare infrastructure for Stage 2 (React/Next frontend)
@@ -90,11 +90,11 @@ GET http://localhost:3000/notifications?limit=10
 
 Notifications are prioritized by type:
 
-1. **Result** (Priority 3) — Academic results, exam marks
-2. **Placement** (Priority 2) — Placement news, job offers
+1. **Placement** (Priority 3) — Placement news, job offers
+2. **Result** (Priority 2) — Academic results, exam marks
 3. **Event** (Priority 1) — General campus events
 
-When you call `/notifications`, the backend sorts by priority and returns the highest-priority notifications first. If you provide a `limit` query parameter, only the top N notifications are returned.
+When you call `/notifications`, the backend sorts by priority (weight) and then by recency (Timestamp), returning the most critical and recent notifications first. If you provide a `limit` query parameter, only the top N notifications are returned.
 
 ### Implementation Details
 
@@ -151,17 +151,32 @@ The backend logs all operations using the middleware:
 
 All logs are sent to the protected test server endpoint `http://20.207.122.201/evaluation-service/logs`.
 
-### Stage 2 Preview
+### Stage 2: Frontend Implementation
 
-Stage 2 will add a React/Next frontend running on `http://localhost:3000` that:
-- Displays all notifications from the backend API
-- Shows limited notifications (configurable top N) on a dashboard
-- Implements filtering by notification type
-- Includes mobile-responsive design using Material UI or vanilla CSS
+The frontend is built using **Next.js 14** and **Material UI**. It provides a real-time dashboard for managing notifications with the following features:
+
+#### Key Features
+1. **Priority Inbox**: Displays the top 'n' most important notifications based on weight and recency.
+2. **Global Feed**: Shows all notifications from the system.
+3. **Filtering**: Allows users to filter by notification type (Result, Placement, Event).
+4. **Read/Unread Tracking**: Persists viewed notifications in `localStorage` to distinguish new updates.
+5. **Responsive Design**: Fully optimized for both desktop and mobile views.
+
+#### Technical Stack
+- **Framework**: Next.js (App Router)
+- **Language**: TypeScript
+- **UI Library**: Material UI (MUI)
+- **State**: React Hooks (useState, useEffect)
+- **Data Fetching**: Native Fetch API
+
+#### Running the Frontend
+1. Navigate to the frontend directory: `cd notification_app_fe`
+2. Install dependencies: `npm install`
+3. Run the development server: `npm run dev`
+4. Open [http://localhost:3000](http://localhost:3000)
 
 ## Registration Details
 
-- **Email**: hemasri_gottumukkala@srmap.edu.in
 - **Registration ID**: AP23110011197
 - **Access Code**: QkbpxH
 

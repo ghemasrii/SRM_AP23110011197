@@ -13,11 +13,20 @@ router.get('/notifications', async (req: Request, res: Response) => {
     }
 
     const limitParam = req.query.limit as string | undefined;
+    const pageParam = req.query.page as string | undefined;
+    const typeParam = req.query.notification_type as string | undefined;
+
     const limit = limitParam ? Number(limitParam) : undefined;
+    const page = pageParam ? Number(pageParam) : undefined;
 
-    await Log('backend', 'info', 'route', 'Fetching notifications from test server');
+    await Log('backend', 'info', 'controller', `Fetching notifications (limit=${limit}, page=${page}, type=${typeParam})`);
 
-    const notifications = await fetchNotificationsFromTestServer(authToken);
+    const notifications = await fetchNotificationsFromTestServer(authToken, {
+      limit,
+      page,
+      notification_type: typeParam
+    });
+    
     const sorted = sortByPriority(notifications, limit);
 
     await Log(

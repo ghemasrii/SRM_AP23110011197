@@ -1,8 +1,10 @@
 import express from 'express';
+import cors from 'cors';
 import { Log } from 'logging-middleware';
 import notificationsRouter from './routes/notifications';
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 app.get('/', (_req, res) => {

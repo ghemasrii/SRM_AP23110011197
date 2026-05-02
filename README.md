@@ -1,4 +1,4 @@
-# AffordMed Logging Middleware and Notification Backend
+# Logging Middleware and Notification Backend
 
 This repository contains a reusable logging middleware package and a sample backend application.
 
@@ -27,7 +27,6 @@ npm start
 
 ## Registration / submission details
 
-- Email: `hemasri_gottumukkala@srmap.edu.in`
 - Registration ID: `AP23110011197`
 - Access code: `QkbpxH`
 
