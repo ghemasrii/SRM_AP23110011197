@@ -30,7 +30,7 @@ interface Notification {
   Timestamp: string;
 }
 
-const API_BASE_URL = 'http://localhost:3008';
+const API_BASE_URL = 'http://localhost:3009';
 
 const getIcon = (type: string) => {
   switch (type) {
