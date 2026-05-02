@@ -30,7 +30,7 @@ interface Notification {
   Timestamp: string;
 }
 
-const API_BASE_URL = 'http://localhost:3001';
+const API_BASE_URL = 'http://localhost:3005';
 
 const getIcon = (type: string) => {
   switch (type) {
@@ -106,11 +106,11 @@ export default function NotificationDashboard() {
             onClick={() => markAsViewed(n.ID)}
           >
             <CardContent>
-              <Box display="flex" alignItems="center" justifyContent="space-between">
-                <Box display="flex" alignItems="center" gap={2}>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                   {getIcon(n.Type)}
                   <Box>
-                    <Box display="flex" alignItems="center" gap={1}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                       <Typography variant="h6" component="div">
                         {n.Type}
                       </Typography>
@@ -136,7 +136,7 @@ export default function NotificationDashboard() {
 
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>
-      <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
         <Box>
           <Typography variant="h4" fontWeight="bold">
             Campus Updates
